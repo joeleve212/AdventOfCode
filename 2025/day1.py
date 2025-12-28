@@ -1,6 +1,6 @@
 import re
 
-fileName="C:\\Users\\joele\\Documents\\GHrepos\\AdventOfCode\\2025\\inputDay1.txt"
+fileName="C:\\Users\\joele\\Documents\\GHrepos\\AdventOfCode\\2025\\inputDay2.txt"
 
 global dialNum 
 dialNum = 50
@@ -29,15 +29,20 @@ def rotate(dist):
         password = password + 1
 
 
+def dayOne():
+    with open(fileName) as inFile:
+        for line in inFile:
+            changeNum=int(re.sub('[^0-9]','',line))
+            if line.__contains__("L"):
+                #negative
+                changeNum= changeNum * -1
+            rotate(changeNum)
+            print(re.sub('\n','',line) + " new location: " + str(dialNum) + " current pass: " +  str(password))
 
-with open(fileName) as inFile:
-    for line in inFile:
-        changeNum=int(re.sub('[^0-9]','',line))
-        if line.__contains__("L"):
-            #negative
-            changeNum= changeNum * -1
-        rotate(changeNum)
-        print(re.sub('\n','',line) + " new location: " + str(dialNum) + " current pass: " +  str(password))
+    print("End loop, password " + str(password))
 
-print("End loop, password " + str(password))
+def dayTwo():
+    #TODO: add content
 
+##Main portion of program
+dayTwo()

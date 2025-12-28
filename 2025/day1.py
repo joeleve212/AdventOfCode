@@ -43,6 +43,9 @@ def dayOne():
 
 def dayTwo():
     #TODO: add content
+    inFile = open(fileName)
+    fileStr = inFile.read()
+    print(fileStr)
 
 ##Main portion of program
 dayTwo()

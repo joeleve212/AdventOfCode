@@ -45,7 +45,10 @@ def dayTwo():
     #TODO: add content
     inFile = open(fileName)
     fileStr = inFile.read()
-    print(fileStr)
+    ranges = fileStr.split(',')
+    for r in ranges:
+        r = re.sub('\n','',r) #prevent EOF/newline from being included in range string
+        print("[" + r + "]")
 
 ##Main portion of program
 dayTwo()

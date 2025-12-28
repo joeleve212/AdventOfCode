@@ -18,8 +18,10 @@ def rotate(dist):
     dialNum = dialNum + dist
     while dialNum < 0: #this is a while in case of rotations larger than 100
         dialNum = 100 + dialNum
-        if not startedZero:
+        if not startedZero: #prevent increment when starting rotation at zero
             password = password + 1
+        else:
+            startedZero=0 #don't skip more than one increment
     if dialNum > 99:
         password = password + int(dialNum/100)
         dialNum = dialNum % 100

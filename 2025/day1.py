@@ -41,25 +41,39 @@ def dayOne():
 
     print("End loop, password " + str(password))
 
+def findEndChar(subStrStart, subStrLen):
+    return ((2*subStrLen) + subStrStart)
+
 def isNumValid(number):
     isValid=True
     numStr=str(number)
     subLen=1 #starting length of substring
     subStart=0 #starting char of substring
-    endCompare=((2*subLen) + subStart)
+    endCompare=findEndChar(subStart, subLen)
     while isValid and (endCompare <= len(numStr)):
+        compStart=subStart+subLen
+        # print("start compare with ranges [" + str(subStart) + "," + str(subStart+subLen) + "] [" + str(compStart) + "," + str(compStart+subLen) + "]"
+        #       + "substrings: " + numStr[subStart:subStart+subLen] + " and " + numStr[compStart:compStart+subLen])
         #loop through checks
-        compStart=subStart+subLen+1
         if numStr[subStart:subStart+subLen] == numStr[compStart:compStart+subLen]:
+            print("Found match: " + numStr[subStart:subStart+subLen] + " and " + numStr[compStart:compStart+subLen])
             isValid=False
-        #TODO: update subStart and subLen for next loop
-        
-        endCompare=((2*subLen) + subStart) #this is the index (+1) of last char used in next comparison
+        #update subStart and subLen for next loop
+        if findEndChar(subStart, subLen+1) > len(numStr):
+            if findEndChar(subStart+1, 1) > len(numStr):
+                # print("Done with comparisons")
+                endCompare = len(numStr) + 1 #this will exit loop
+            else:
+                subStart = subStart + 1
+                subLen = 1
+                endCompare=findEndChar(subStart, subLen)
+        else:
+            subLen = subLen + 1
+            endCompare=findEndChar(subStart, subLen) #this is the index (+1) of last char used in next comparison
         
     return isValid #This will be 1 if valid, 0 if not valid
 
 def dayTwo():
-    #TODO: add content
     inFile = open(fileName)
     fileStr = inFile.read()
     ranges = fileStr.split(',')
@@ -71,6 +85,10 @@ def dayTwo():
         for value in range(int(borders[0]), int(borders[1]) + 1):
             if not isNumValid(value):
                 invalidTotal = invalidTotal + value
+                print("Found invalid number " + str(value))
+    print("Final total: " + str(invalidTotal))
+
+
 
 ##Main portion of program
 dayTwo()

@@ -44,9 +44,11 @@ def dayOne():
 def isNumValid(number):
     isValid=True
     numStr=str(number)
-    startIdx = 0
+    
     for strLen in range(1,int(len(numStr)/2)+1):
         if (len(numStr) % strLen) == 0: #skip if we can't evenly divide string
+            print("Start strLen "+str(strLen))
+            startIdx = 0
             midIdx=startIdx + strLen
             endIdx=midIdx + strLen
             foundMatch = True #haven't actually looked for match, we just need to enter loop
@@ -57,14 +59,16 @@ def isNumValid(number):
                     startIdx = startIdx + strLen
                     midIdx=startIdx + strLen
                     endIdx=midIdx + strLen
+                    print("New:: start "+str(startIdx)+" mid "+str(midIdx)+" end "+str(endIdx))
                 else:
                     print("No match"+numStr)
                     foundMatch = False  #one time through this else will exit loop
             if foundMatch:
                 print("Found invalid number " + numStr )
                 print("end: "+str(endIdx)+" mid: "+str(midIdx))
-                exit()
-                
+                if numStr == "252511":
+                    exit()
+                isValid=False     
        
     return isValid #This will be 1 if valid, 0 if not valid
 

@@ -41,36 +41,15 @@ def dayOne():
 
     print("End loop, password " + str(password))
 
-def findEndChar(subStrStart, subStrLen):
-    return ((2*subStrLen) + subStrStart)
-
 def isNumValid(number):
     isValid=True
     numStr=str(number)
-    subLen=1 #starting length of substring
-    subStart=0 #starting char of substring
-    endCompare=findEndChar(subStart, subLen)
-    while isValid and (endCompare <= len(numStr)):
-        compStart=subStart+subLen
-        # print("start compare with ranges [" + str(subStart) + "," + str(subStart+subLen) + "] [" + str(compStart) + "," + str(compStart+subLen) + "]"
-        #       + "substrings: " + numStr[subStart:subStart+subLen] + " and " + numStr[compStart:compStart+subLen])
-        #loop through checks
-        if numStr[subStart:subStart+subLen] == numStr[compStart:compStart+subLen]:
-            print("Found match: " + numStr[subStart:subStart+subLen] + " and " + numStr[compStart:compStart+subLen])
-            isValid=False
-        #update subStart and subLen for next loop
-        if findEndChar(subStart, subLen+1) > len(numStr):
-            if findEndChar(subStart+1, 1) > len(numStr):
-                # print("Done with comparisons")
-                endCompare = len(numStr) + 1 #this will exit loop
-            else:
-                subStart = subStart + 1
-                subLen = 1
-                endCompare=findEndChar(subStart, subLen)
-        else:
-            subLen = subLen + 1
-            endCompare=findEndChar(subStart, subLen) #this is the index (+1) of last char used in next comparison
-        
+
+    if (len(numStr) % 2) == 0: #skip anything with odd number of digits
+        midIdx=int(len(numStr)/2)
+        if numStr[0:midIdx] == numStr[midIdx:len(numStr)]:
+            isValid = False
+       
     return isValid #This will be 1 if valid, 0 if not valid
 
 def dayTwo():

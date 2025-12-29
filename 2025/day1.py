@@ -44,11 +44,27 @@ def dayOne():
 def isNumValid(number):
     isValid=True
     numStr=str(number)
-
-    if (len(numStr) % 2) == 0: #skip anything with odd number of digits
-        midIdx=int(len(numStr)/2)
-        if numStr[0:midIdx] == numStr[midIdx:len(numStr)]:
-            isValid = False
+    startIdx = 0
+    for strLen in range(1,int(len(numStr)/2)+1):
+        if (len(numStr) % strLen) == 0: #skip if we can't evenly divide string
+            midIdx=startIdx + strLen
+            endIdx=midIdx + strLen
+            foundMatch = True #haven't actually looked for match, we just need to enter loop
+            while (foundMatch == True) and (endIdx <= len(numStr)): #each time entering this loop is one check 
+                if numStr[startIdx:midIdx] == numStr[midIdx:endIdx]:
+                    print("Match with "+numStr[startIdx:midIdx]+" and "+numStr[midIdx:endIdx])
+                    foundMatch = True #redundant, but here for clarity
+                    startIdx = startIdx + strLen
+                    midIdx=startIdx + strLen
+                    endIdx=midIdx + strLen
+                else:
+                    print("No match"+numStr)
+                    foundMatch = False  #one time through this else will exit loop
+            if foundMatch:
+                print("Found invalid number " + numStr )
+                print("end: "+str(endIdx)+" mid: "+str(midIdx))
+                exit()
+                
        
     return isValid #This will be 1 if valid, 0 if not valid
 
@@ -64,7 +80,7 @@ def dayTwo():
         for value in range(int(borders[0]), int(borders[1]) + 1):
             if not isNumValid(value):
                 invalidTotal = invalidTotal + value
-                print("Found invalid number " + str(value))
+                # print("Found invalid number " + str(value))
     print("Final total: " + str(invalidTotal))
 
 

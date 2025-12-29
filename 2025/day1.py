@@ -87,7 +87,8 @@ def dayTwo():
                 # print("Found invalid number " + str(value))
     print("Final total: " + str(invalidTotal))
 
-
+def dayThree():
+    #TODO: everything
 
 ##Main portion of program
-dayTwo()
+dayThree()

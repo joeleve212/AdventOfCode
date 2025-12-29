@@ -41,14 +41,36 @@ def dayOne():
 
     print("End loop, password " + str(password))
 
+def isNumValid(number):
+    isValid=True
+    numStr=str(number)
+    subLen=1 #starting length of substring
+    subStart=0 #starting char of substring
+    endCompare=((2*subLen) + subStart)
+    while isValid and (endCompare <= len(numStr)):
+        #loop through checks
+        compStart=subStart+subLen+1
+        if numStr[subStart:subStart+subLen] == numStr[compStart:compStart+subLen]:
+            isValid=False
+        #TODO: update subStart and subLen for next loop
+        
+        endCompare=((2*subLen) + subStart) #this is the index (+1) of last char used in next comparison
+        
+    return isValid #This will be 1 if valid, 0 if not valid
+
 def dayTwo():
     #TODO: add content
     inFile = open(fileName)
     fileStr = inFile.read()
     ranges = fileStr.split(',')
+    invalidTotal = 0 #this will be our end goal
     for r in ranges:
         r = re.sub('\n','',r) #prevent EOF/newline from being included in range string
-        print("[" + r + "]")
+        borders=r.split('-')
+        print("start: " + borders[0] + " end: " + borders[1])
+        for value in range(int(borders[0]), int(borders[1]) + 1):
+            if not isNumValid(value):
+                invalidTotal = invalidTotal + value
 
 ##Main portion of program
 dayTwo()

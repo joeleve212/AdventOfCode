@@ -125,8 +125,26 @@ def dayThree():
             digits.clear()
     print("Final total: "+str(sum))
 
+def numAdjacent(xLoc, yLoc):
+    print("Checking location ["+str(xLoc)+","+str(yLoc)+"]")
+    return 1
+
 def dayFour():
-    #TODO:
+    inFile = open(fileName)
+    global fileStr, length, width
+    fileStr = inFile.read()
+    line = fileStr.splitlines()[0]
+    print("first line: "+line)
+    fileStr = re.sub('\n','',fileStr)
+    totalLocations=len(fileStr)
+    width = len(line) #width of warehouse/our grid
+    length = int(totalLocations / width) #this is number of lines in file, or length of warehouse
+    
+    accessibleRolls=0
+    for loc in range(len(fileStr)):
+        if (fileStr[loc] == '@') and (numAdjacent(loc % width, int(loc / width)) >= 4):
+            accessibleRolls=accessibleRolls+1
+    print("Total rolls accessible: "+accessibleRolls)
 
 ##Main portion of program
 dayFour()

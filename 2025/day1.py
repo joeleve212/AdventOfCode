@@ -1,6 +1,6 @@
 import re
 
-fileName="C:\\Users\\joele\\Documents\\GHrepos\\AdventOfCode\\2025\\inputDay3.txt"
+fileName="C:\\Users\\joele\\Documents\\GHrepos\\AdventOfCode\\2025\\inputDay4.txt"
 
 global dialNum 
 dialNum = 50
@@ -125,5 +125,8 @@ def dayThree():
             digits.clear()
     print("Final total: "+str(sum))
 
+def dayFour():
+    #TODO:
+
 ##Main portion of program
-dayThree()
+dayFour()

@@ -116,12 +116,13 @@ def dayThree():
                 digits.append(result[0])
                 searchIdx=result[1]
 
+            
             thisVal=0
             for idx in range(totalDigits):
-                print("Curr num: "+str(idx))
                 thisVal=thisVal + (digits[idx] * pow(10, totalDigits - idx - 1))
             print("Max value: "+str(thisVal))
             sum=sum+thisVal
+            digits.clear()
     print("Final total: "+str(sum))
 
 ##Main portion of program

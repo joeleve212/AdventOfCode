@@ -1,6 +1,6 @@
 import re
 
-fileName="C:\\Users\\joele\\Documents\\GHrepos\\AdventOfCode\\2025\\inputDay2.txt"
+fileName="C:\\Users\\joele\\Documents\\GHrepos\\AdventOfCode\\2025\\inputDay3.txt"
 
 global dialNum 
 dialNum = 50
@@ -88,7 +88,24 @@ def dayTwo():
     print("Final total: " + str(invalidTotal))
 
 def dayThree():
-    #TODO: everything
+    with open(fileName) as inFile:
+        for line in inFile:
+            line = re.sub('\n','',line)
+            tensIdx=0
+            tensDig=0
+            onesDig=0
+            for charIdx in range(len(line) - 1): #minus 1 so we go up to the second-to-last char
+                thisDig=int(line[charIdx])
+                if thisDig > tensDig:
+                    tensIdx=charIdx
+                    tensDig=thisDig
+            for charIdx in range(tensIdx+1, len(line)):
+                thisDig=int(line[charIdx])
+                if thisDig > onesDig:
+                    onesDig=thisDig
+            thisVal=(10*tensDig)+onesDig
+            print("Max value: "+str(thisVal))
+            exit()
 
 ##Main portion of program
 dayThree()

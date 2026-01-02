@@ -88,6 +88,7 @@ def dayTwo():
     print("Final total: " + str(invalidTotal))
 
 def dayThree():
+    sum=0
     with open(fileName) as inFile:
         for line in inFile:
             line = re.sub('\n','',line)
@@ -104,8 +105,9 @@ def dayThree():
                 if thisDig > onesDig:
                     onesDig=thisDig
             thisVal=(10*tensDig)+onesDig
-            print("Max value: "+str(thisVal))
-            exit()
+            # print("Max value: "+str(thisVal))
+            sum=sum+thisVal
+    print("Final total: "+str(sum))
 
 ##Main portion of program
 dayThree()

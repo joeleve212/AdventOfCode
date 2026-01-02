@@ -87,25 +87,41 @@ def dayTwo():
                 # print("Found invalid number " + str(value))
     print("Final total: " + str(invalidTotal))
 
+totalDigits=12
+
+def findNextDig(string,startIdx,digNum):
+    if digNum == totalDigits: #this means we are searching for a 13th char
+        print("Invalid digNum search")
+        return -1
+    highVal=0
+    #TODO: figure if this loop is doing subtracts properly
+    for charIdx in range(startIdx,len(string) - (totalDigits-digNum-1)): #minus so we leave chars for later digs
+        thisDig=int(string[charIdx])
+        if thisDig > highVal:
+            digIdx=charIdx
+            highVal=thisDig
+    #return search Idx and digit
+    return [ highVal, digIdx + 1 ]
+
 def dayThree():
     sum=0
     with open(fileName) as inFile:
+        digits = [] #this will be the final digits we want
         for line in inFile:
             line = re.sub('\n','',line)
-            tensIdx=0
-            tensDig=0
-            onesDig=0
-            for charIdx in range(len(line) - 1): #minus 1 so we go up to the second-to-last char
-                thisDig=int(line[charIdx])
-                if thisDig > tensDig:
-                    tensIdx=charIdx
-                    tensDig=thisDig
-            for charIdx in range(tensIdx+1, len(line)):
-                thisDig=int(line[charIdx])
-                if thisDig > onesDig:
-                    onesDig=thisDig
-            thisVal=(10*tensDig)+onesDig
-            # print("Max value: "+str(thisVal))
+
+            searchIdx=0 #start here to avoid having first loop run different
+            for charNum in range(totalDigits):
+                result = findNextDig(line, searchIdx, charNum)
+                digits.append(result[0])
+                searchIdx=result[1]
+
+            thisVal=0
+            for idx in range(totalDigits):
+                print("Curr num: "+str(idx))
+                thisVal=thisVal + (digits[idx] * pow(10, totalDigits - idx - 1))
+            print("Max value: "+str(thisVal))
+            exit()
             sum=sum+thisVal
     print("Final total: "+str(sum))
 

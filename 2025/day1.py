@@ -121,7 +121,6 @@ def dayThree():
                 print("Curr num: "+str(idx))
                 thisVal=thisVal + (digits[idx] * pow(10, totalDigits - idx - 1))
             print("Max value: "+str(thisVal))
-            exit()
             sum=sum+thisVal
     print("Final total: "+str(sum))
 

@@ -125,26 +125,46 @@ def dayThree():
             digits.clear()
     print("Final total: "+str(sum))
 
-def numAdjacent(xLoc, yLoc):
-    print("Checking location ["+str(xLoc)+","+str(yLoc)+"]")
-    return 1
+def ver(num,centerNum):
+    if (num < 0) or (num > len(mapStr)): #At front/back wall
+        num = -1
+    elif (int(centerNum / width) != int(num / width)): #At side wall
+        num = -1
+
+    return num #if valid, returning the same value as input
+
+def numAdjacent(idx):
+    adjTotal = 0
+    if mapStr[idx] == '@':
+        adjValues = [ ver(idx-width-1, idx), ver(idx-width, idx), ver(idx-width+1, idx),
+                      ver(idx-1, idx), ver(idx+1, idx),
+                      ver(idx+width-1, idx), ver(idx+width, idx), ver(idx+width+1, idx) ]
+        #check next door spots
+        for val in adjValues:
+            print("Adj val: "+str(val))
+            if val == -1: #marked as invalid location, skip it
+                continue
+            if mapStr[val] == '@': #is there roll in that location?
+                adjTotal = adjTotal + 1
+    return adjTotal
 
 def dayFour():
     inFile = open(fileName)
-    global fileStr, length, width
-    fileStr = inFile.read()
-    line = fileStr.splitlines()[0]
-    print("first line: "+line)
-    fileStr = re.sub('\n','',fileStr)
-    totalLocations=len(fileStr)
+    global mapStr, length, width
+    mapStr = inFile.read()
+    line = mapStr.splitlines()[0]
+    mapStr = re.sub('\n','',mapStr)
+    totalLocations=len(mapStr)
     width = len(line) #width of warehouse/our grid
     length = int(totalLocations / width) #this is number of lines in file, or length of warehouse
     
     accessibleRolls=0
-    for loc in range(len(fileStr)):
-        if (fileStr[loc] == '@') and (numAdjacent(loc % width, int(loc / width)) >= 4):
+    for loc in range(len(mapStr)):
+        print("Try "+mapStr[loc])
+        if (mapStr[loc] == "@") and (numAdjacent(loc) >= 4):
+            print("Found roll")
             accessibleRolls=accessibleRolls+1
-    print("Total rolls accessible: "+accessibleRolls)
+    print("Total rolls accessible: "+str(accessibleRolls))
 
 ##Main portion of program
 dayFour()

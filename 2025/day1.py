@@ -126,25 +126,31 @@ def dayThree():
     print("Final total: "+str(sum))
 
 def ver(num,centerNum):
+    
     if (num < 0) or (num > len(mapStr)): #At front/back wall
+        # print("Out of limits")
         num = -1
-    elif (int(centerNum / width) != int(num / width)): #At side wall
+    elif ((centerNum % width) == 0) and ((num % width) == (width - 1)): #on left border
+        # print("Left")
+        num = -1
+    elif ((centerNum % width) == (width - 1)) and ((num % width) == 0): #On right border
+        # print("Right")
         num = -1
 
     return num #if valid, returning the same value as input
 
 def numAdjacent(idx):
     adjTotal = 0
-    if mapStr[idx] == '@':
+    # print("Try: "+mapStr[idx])
+    if mapStr[idx] == "@":
         adjValues = [ ver(idx-width-1, idx), ver(idx-width, idx), ver(idx-width+1, idx),
                       ver(idx-1, idx), ver(idx+1, idx),
                       ver(idx+width-1, idx), ver(idx+width, idx), ver(idx+width+1, idx) ]
         #check next door spots
         for val in adjValues:
-            print("Adj val: "+str(val))
             if val == -1: #marked as invalid location, skip it
                 continue
-            if mapStr[val] == '@': #is there roll in that location?
+            if mapStr[val] == "@": #is there roll in that location?
                 adjTotal = adjTotal + 1
     return adjTotal
 
@@ -157,13 +163,14 @@ def dayFour():
     totalLocations=len(mapStr)
     width = len(line) #width of warehouse/our grid
     length = int(totalLocations / width) #this is number of lines in file, or length of warehouse
-    
+    # print("W: "+str(width)+" L: "+str(length)+" T: "+str(totalLocations))
     accessibleRolls=0
     for loc in range(len(mapStr)):
-        print("Try "+mapStr[loc])
-        if (mapStr[loc] == "@") and (numAdjacent(loc) >= 4):
+        
+        if (mapStr[loc] == "@") and (numAdjacent(loc) < 4):
             print("Found roll")
             accessibleRolls=accessibleRolls+1
+        
     print("Total rolls accessible: "+str(accessibleRolls))
 
 ##Main portion of program

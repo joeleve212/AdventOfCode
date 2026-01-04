@@ -127,7 +127,7 @@ def dayThree():
 
 def ver(num,centerNum):
     
-    if (num < 0) or (num > len(mapStr)): #At front/back wall
+    if (num < 0) or (num > len(mapList)): #At front/back wall
         # print("Out of limits")
         num = -1
     elif ((centerNum % width) == 0) and ((num % width) == (width - 1)): #on left border
@@ -141,8 +141,8 @@ def ver(num,centerNum):
 
 def numAdjacent(idx):
     adjTotal = 0
-    # print("Try: "+mapStr[idx])
-    if mapStr[idx] == "@":
+    # print("Try: "+mapList[idx])
+    if mapList[idx] == "@":
         adjValues = [ ver(idx-width-1, idx), ver(idx-width, idx), ver(idx-width+1, idx),
                       ver(idx-1, idx), ver(idx+1, idx),
                       ver(idx+width-1, idx), ver(idx+width, idx), ver(idx+width+1, idx) ]
@@ -150,13 +150,13 @@ def numAdjacent(idx):
         for val in adjValues:
             if val == -1: #marked as invalid location, skip it
                 continue
-            if mapStr[val] == "@": #is there roll in that location?
+            if mapList[val] == "@": #is there roll in that location?
                 adjTotal = adjTotal + 1
     return adjTotal
 
 def dayFour():
     inFile = open(fileName)
-    global mapStr, length, width
+    global mapList, length, width
     mapStr = inFile.read()
     line = mapStr.splitlines()[0]
     mapStr = re.sub('\n','',mapStr)
@@ -165,13 +165,21 @@ def dayFour():
     length = int(totalLocations / width) #this is number of lines in file, or length of warehouse
     # print("W: "+str(width)+" L: "+str(length)+" T: "+str(totalLocations))
     accessibleRolls=0
-    for loc in range(len(mapStr)):
-        
-        if (mapStr[loc] == "@") and (numAdjacent(loc) < 4):
-            print("Found roll")
-            accessibleRolls=accessibleRolls+1
-        
-    print("Total rolls accessible: "+str(accessibleRolls))
+    oldAccessibleRolls=0
+    foundAccessible = True
+    mapList=list(mapStr)
+    while foundAccessible:
+        for loc in range(len(mapList)):
+            if (mapList[loc] == "@") and (numAdjacent(loc) < 4):
+                print("Found roll")
+                mapList[loc] = '.'
+                accessibleRolls=accessibleRolls+1
+            
+        print("Total rolls accessible: "+str(accessibleRolls))
+        if accessibleRolls == oldAccessibleRolls:
+            foundAccessible = False
+        else:
+            oldAccessibleRolls = accessibleRolls
 
 ##Main portion of program
 dayFour()

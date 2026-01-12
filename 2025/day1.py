@@ -237,14 +237,13 @@ def dayFive():
     allRanges = fileStr.split("\n\n")[0].splitlines()
     for rangeLine in allRanges:
         thisIntRange = list(map(int, rangeLine.split("-")))
-        rangeList.append(thisIntRange)
         #need to check for overlap from existing ranges
         overlapTotal = findOverlap(thisIntRange,rangeList)
+        rangeList.append(thisIntRange)
         print("Found overlap: "+str(overlapTotal)+" in range "+str(thisIntRange))
         newValsTotal = rangeSize(thisIntRange[0], thisIntRange[1]) - overlapTotal
         totalFreshIDs = totalFreshIDs + newValsTotal
-        print("Vals: "+str(newValsTotal)+", "+str(totalFreshIDs))
-        exit()
+        # print("Vals: "+str(newValsTotal)+", "+str(totalFreshIDs))
 
     #Below section only needed for part 1
     #allIDs = fileStr.split("\n\n")[1].splitlines()

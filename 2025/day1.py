@@ -181,18 +181,49 @@ def dayFour():
         else:
             oldAccessibleRolls = accessibleRolls
 
+def isWithin(val, rangeList):
+    within = False
+    above = False
+    below = False
+    if val >= rangeList[0]:
+        if val <=rangeList[1]:
+            within = True
+        else:
+            above = True
+    else: #less than both compare points, since it is lower than the low compare
+        below = True
+    
+    return within, above, below
+
+def findOverlap(thisRange, checkRangeList):
+    #TODO: check for [0] lower and [1] hi
+    overlap = 0
+    for checkRange in checkRangeList:
+        lowerInside,lowerAb,lowerBel = isWithin(thisRange[0], checkRange) #start of our range is within comparison range
+        upperInside,upperAb,upperBel = isWithin(thisRange[1], checkRange) #end of our range is within comparison range
+        if (not lowerInside) and (not upperInside):
+            #00 - Neither edge inside comparison range
+            #check for containing comparison range
+            if 
+
+
+    return overlap
+
 def dayFive():
     inFile = open(fileName)
     fileStr = inFile.read()
 
     totalFreshIDs = 0
+    rangeList = []
 
     allRanges = fileStr.split("\n\n")[0].splitlines()
     for rangeLine in allRanges:
         thisIntRange = list(map(int, rangeLine.split("-")))
-        #add this range to main list
-        totalFreshIDs = totalFreshIDs + thisIntRange[1] - thisIntRange[0] + 1
-    # print("List of ranges: "+str(rangeList))
+        rangeList.append(thisIntRange)
+        #need to check for overlap from existing ranges
+        overlapTotal = findOverlap(thisIntRange,rangeList)
+        newValsTotal = thisIntRange[1] - thisIntRange[0] + 1 - overlapTotal
+        totalFreshIDs = totalFreshIDs + newValsTotal
 
     #Below section only needed for part 1
     #allIDs = fileStr.split("\n\n")[1].splitlines()

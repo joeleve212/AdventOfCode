@@ -235,6 +235,7 @@ def dayFive():
     rangeList = []
 
     allRanges = fileStr.split("\n\n")[0].splitlines()
+    numLines = 1
     for rangeLine in allRanges:
         thisIntRange = list(map(int, rangeLine.split("-")))
         #need to check for overlap from existing ranges
@@ -243,7 +244,13 @@ def dayFive():
         print("Found overlap: "+str(overlapTotal)+" in range "+str(thisIntRange))
         newValsTotal = rangeSize(thisIntRange[0], thisIntRange[1]) - overlapTotal
         totalFreshIDs = totalFreshIDs + newValsTotal
-        # print("Vals: "+str(newValsTotal)+", "+str(totalFreshIDs))
+        print("Vals: "+str(newValsTotal)+", "+str(totalFreshIDs))
+        if numLines == 27:
+            exit()
+        numLines = numLines + 1
+
+    #TODO: My problem is that I only take away the max overlap from one comparison range. 
+    #this doesn't take into account multiple ranges overlapping thisRange in different areas
 
     #Below section only needed for part 1
     #allIDs = fileStr.split("\n\n")[1].splitlines()

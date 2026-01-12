@@ -183,6 +183,18 @@ def dayFour():
 
 def dayFive():
     inFile = open(fileName)
+    fileStr = inFile.read()
+
+    allRanges = fileStr.split("\n\n")[0].splitlines()
+    for rangeLine in allRanges:
+        thisIntRange = list(map(int, rangeLine.split("-")))
+        #TODO: add this range to main list
+
+    allIDs = fileStr.split("\n\n")[1].splitlines()
+
+    for id in allIDs:
+        idNum = int(id)
+        #TODO: check if this is within any ranges
 
 ##Main portion of program
 dayFive()

@@ -185,25 +185,24 @@ def dayFive():
     inFile = open(fileName)
     fileStr = inFile.read()
 
-    rangeList = []
     totalFreshIDs = 0
 
     allRanges = fileStr.split("\n\n")[0].splitlines()
     for rangeLine in allRanges:
         thisIntRange = list(map(int, rangeLine.split("-")))
         #add this range to main list
-        rangeList.append(thisIntRange)
+        totalFreshIDs = totalFreshIDs + thisIntRange[1] - thisIntRange[0] + 1
     # print("List of ranges: "+str(rangeList))
 
-    allIDs = fileStr.split("\n\n")[1].splitlines()
-
-    for id in allIDs:
-        idNum = int(id)
-        for range in rangeList:
-            #check if this is within any ranges
-            if idNum >= range[0] and idNum <= range[1]:
-                totalFreshIDs = totalFreshIDs + 1
-                break
+    #Below section only needed for part 1
+    #allIDs = fileStr.split("\n\n")[1].splitlines()
+    # for id in allIDs:
+    #     idNum = int(id)
+    #     for range in rangeList:
+    #         #check if this is within any ranges
+    #         if idNum >= range[0] and idNum <= range[1]:
+    #             totalFreshIDs = totalFreshIDs + 1
+    #             break
     print("Total fresh IDs: "+ str(totalFreshIDs))
 
 ##Main portion of program

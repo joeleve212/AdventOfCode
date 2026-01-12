@@ -1,6 +1,6 @@
 import re
 
-fileName="C:\\Users\\joele\\Documents\\GHrepos\\AdventOfCode\\2025\\inputDay4.txt"
+fileName="C:\\Users\\joele\\Documents\\GHrepos\\AdventOfCode\\2025\\inputDay5.txt"
 
 global dialNum 
 dialNum = 50
@@ -181,5 +181,8 @@ def dayFour():
         else:
             oldAccessibleRolls = accessibleRolls
 
+def dayFive():
+    inFile = open(fileName)
+
 ##Main portion of program
-dayFour()
+dayFive()

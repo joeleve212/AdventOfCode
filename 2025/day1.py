@@ -225,13 +225,13 @@ def findOverlap(thisRange, checkRangeList):
         elif(lowerInside) and (upperInside):
             #11 - Both edges inside comparison range, our entire range 
             #return immediately because this is the greatest overlap possible, no need for further search
-            return thisSize
+            overlap = thisSize
 
     checkRangeList.append(thisRange)
     if overlap > thisSize:
         print("ERROR: overlap["+overlap+"] more than size["+thisSize+"]")
-
-    return overlap
+    
+    return thisSize - overlap #return the amount to add to total
 
 def dayFive():
     inFile = open(fileName)
@@ -245,11 +245,10 @@ def dayFive():
     for rangeLine in allRanges:
         thisIntRange = list(map(int, rangeLine.split("-")))
         #need to check for overlap from existing ranges
-        overlapTotal = findOverlap(thisIntRange,rangeList)
-        print("Found overlap: "+str(overlapTotal)+" in range "+str(thisIntRange))
-        newValsTotal = rangeSize(thisIntRange[0], thisIntRange[1]) - overlapTotal
-        totalFreshIDs = totalFreshIDs + newValsTotal
-        print("Vals: "+str(newValsTotal)+", "+str(totalFreshIDs))
+        newVals = findOverlap(thisIntRange,rangeList)
+        print("Found overlap: "+str(newVals)+" in range "+str(thisIntRange))
+        totalFreshIDs += newVals
+        print("Vals: "+str(totalFreshIDs))
         if numLines == 27:
             exit()
         numLines = numLines + 1

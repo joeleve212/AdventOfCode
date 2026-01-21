@@ -200,8 +200,9 @@ def rangeSize(lower, upper):
 
 def findOverlap(thisRange, checkRangeList):
     overlap = 0
-    for checkRange in checkRangeList:
-        thisOverlap = 0
+    thisSize = rangeSize(thisRange[0], thisRange[1])
+    for index, checkRange in enumerate(checkRangeList):
+        overlap = 0
         lowerInside,lowerAb,lowerBel = isWithin(thisRange[0], checkRange) #start of our range is within comparison range
         upperInside,upperAb,upperBel = isWithin(thisRange[1], checkRange) #end of our range is within comparison range
         if (not lowerInside) and (not upperInside):
@@ -210,20 +211,20 @@ def findOverlap(thisRange, checkRangeList):
             if lowerBel and upperAb:
                 #thisRange contains all values of checkRange
                 #we may find later that thisRange is fully contained, so must keep searching
-                thisOverlap = rangeSize(checkRange[0], checkRange[1])
+                overlap = rangeSize(checkRange[0], checkRange[1])
         elif(not lowerInside) and (upperInside):
             #01 - Upper edge inside comparison range
-            thisOverlap = rangeSize(checkRange[0],thisRange[1])
+            overlap = rangeSize(checkRange[0],thisRange[1])
         elif(lowerInside) and (not upperInside):
             #10 - Lower edge inside comparison range
-            thisOverlap = rangeSize(thisRange[0],checkRange[1])
+            overlap = rangeSize(thisRange[0],checkRange[1])
         elif(lowerInside) and (upperInside):
             #11 - Both edges inside comparison range, our entire range 
             #return immediately because this is the greatest overlap possible, no need for further search
-            return rangeSize(thisRange[0], thisRange[1])
+            return thisSize
 
-        if thisOverlap > overlap:
-            overlap = thisOverlap
+    if overlap == 0: #only add to the check list if there is no overlap at all
+        checkRangeList.append(thisRange)
 
     return overlap
 
@@ -240,7 +241,6 @@ def dayFive():
         thisIntRange = list(map(int, rangeLine.split("-")))
         #need to check for overlap from existing ranges
         overlapTotal = findOverlap(thisIntRange,rangeList)
-        rangeList.append(thisIntRange)
         print("Found overlap: "+str(overlapTotal)+" in range "+str(thisIntRange))
         newValsTotal = rangeSize(thisIntRange[0], thisIntRange[1]) - overlapTotal
         totalFreshIDs = totalFreshIDs + newValsTotal
@@ -265,3 +265,4 @@ def dayFive():
 
 ##Main portion of program
 dayFive()
+

@@ -196,12 +196,15 @@ def isWithin(val, rangeList):
     return within, above, below
 
 def rangeSize(lower, upper):
-    return upper - lower + 1
+    size = upper - lower + 1
+    print("Found size "+str(size))
+    return size
 
 def findOverlap(thisRange, checkRangeList):
     overlap = 0
     thisSize = rangeSize(thisRange[0], thisRange[1])
     toRemove = []
+    append = True
     for index, checkRange in enumerate(checkRangeList):
         lowerInside,lowerAb,lowerBel = isWithin(thisRange[0], checkRange) #start of our range is within comparison range
         upperInside,upperAb,upperBel = isWithin(thisRange[1], checkRange) #end of our range is within comparison range
@@ -228,12 +231,14 @@ def findOverlap(thisRange, checkRangeList):
             #11 - Both edges inside comparison range, our entire range 
             #leave immediately because this is the greatest overlap possible, no need for further search
             overlap = thisSize
+            append = False
             break
 
     for idx in reversed(toRemove): #Delete overlapping ranges - needs to be separate loop to avoid messing with indices during loop
         del checkRangeList[idx] #list reversed so we remove from the end of the list first and do not mess up lower indices
 
-    checkRangeList.append(thisRange)
+    if append:
+        checkRangeList.append(thisRange)
     if overlap > thisSize:
         print("ERROR: overlap["+str(overlap)+"] more than size["+str(thisSize)+"]")
     

@@ -230,12 +230,12 @@ def findOverlap(thisRange, checkRangeList):
             overlap = thisSize
             break
 
-    for idx in toRemove: #Delete overlapping ranges - needs to be separate loop to avoid messing with indices during loop
-        del checkRangeList[idx]
+    for idx in reversed(toRemove): #Delete overlapping ranges - needs to be separate loop to avoid messing with indices during loop
+        del checkRangeList[idx] #list reversed so we remove from the end of the list first and do not mess up lower indices
 
     checkRangeList.append(thisRange)
     if overlap > thisSize:
-        print("ERROR: overlap["+overlap+"] more than size["+thisSize+"]")
+        print("ERROR: overlap["+str(overlap)+"] more than size["+str(thisSize)+"]")
     
     return thisSize - overlap #return the amount to add to total
 

@@ -202,7 +202,6 @@ def findOverlap(thisRange, checkRangeList):
     overlap = 0
     thisSize = rangeSize(thisRange[0], thisRange[1])
     for index, checkRange in enumerate(checkRangeList):
-        overlap = 0
         lowerInside,lowerAb,lowerBel = isWithin(thisRange[0], checkRange) #start of our range is within comparison range
         upperInside,upperAb,upperBel = isWithin(thisRange[1], checkRange) #end of our range is within comparison range
         if (not lowerInside) and (not upperInside):
@@ -211,20 +210,26 @@ def findOverlap(thisRange, checkRangeList):
             if lowerBel and upperAb:
                 #thisRange contains all values of checkRange
                 #we may find later that thisRange is fully contained, so must keep searching
-                overlap = rangeSize(checkRange[0], checkRange[1])
+                overlap += rangeSize(checkRange[0], checkRange[1])
+                #no change to thisRange b/c it holds all of checkRange
         elif(not lowerInside) and (upperInside):
             #01 - Upper edge inside comparison range
-            overlap = rangeSize(checkRange[0],thisRange[1])
+            overlap += rangeSize(checkRange[0],thisRange[1])
+            thisRange[1] = checkRange[1] #increase thisRange to include checkRange
+            del checkRangeList[index] #remove checkRange from list, going to be replaced by updated thisRange
         elif(lowerInside) and (not upperInside):
             #10 - Lower edge inside comparison range
-            overlap = rangeSize(thisRange[0],checkRange[1])
+            overlap += rangeSize(thisRange[0],checkRange[1])
+            thisRange[0] = checkRange[0] #increase thisRange to include checkRange
+            del checkRangeList[index] #remove checkRange from list, going to be replaced by updated thisRange
         elif(lowerInside) and (upperInside):
             #11 - Both edges inside comparison range, our entire range 
             #return immediately because this is the greatest overlap possible, no need for further search
             return thisSize
 
-    if overlap == 0: #only add to the check list if there is no overlap at all
-        checkRangeList.append(thisRange)
+    checkRangeList.append(thisRange)
+    if overlap > thisSize:
+        print("ERROR: overlap["+overlap+"] more than size["+thisSize+"]")
 
     return overlap
 

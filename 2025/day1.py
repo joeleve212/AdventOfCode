@@ -201,6 +201,7 @@ def rangeSize(lower, upper):
 def findOverlap(thisRange, checkRangeList):
     overlap = 0
     thisSize = rangeSize(thisRange[0], thisRange[1])
+    toRemove = []
     for index, checkRange in enumerate(checkRangeList):
         lowerInside,lowerAb,lowerBel = isWithin(thisRange[0], checkRange) #start of our range is within comparison range
         upperInside,upperAb,upperBel = isWithin(thisRange[1], checkRange) #end of our range is within comparison range
@@ -212,20 +213,25 @@ def findOverlap(thisRange, checkRangeList):
                 #we may find later that thisRange is fully contained, so must keep searching
                 overlap += rangeSize(checkRange[0], checkRange[1])
                 #no change to thisRange b/c it holds all of checkRange
+                toRemove.append(index) #set checkRange for later deletion, going to be replaced by thisRange
         elif(not lowerInside) and (upperInside):
             #01 - Upper edge inside comparison range
             overlap += rangeSize(checkRange[0],thisRange[1])
             thisRange[1] = checkRange[1] #increase thisRange to include checkRange
-            del checkRangeList[index] #remove checkRange from list, going to be replaced by updated thisRange
+            toRemove.append(index) #set checkRange for later deletion, going to be replaced by updated thisRange
         elif(lowerInside) and (not upperInside):
             #10 - Lower edge inside comparison range
             overlap += rangeSize(thisRange[0],checkRange[1])
             thisRange[0] = checkRange[0] #increase thisRange to include checkRange
-            del checkRangeList[index] #remove checkRange from list, going to be replaced by updated thisRange
+            toRemove.append(index) #set checkRange for later deletion, going to be replaced by updated thisRange
         elif(lowerInside) and (upperInside):
             #11 - Both edges inside comparison range, our entire range 
-            #return immediately because this is the greatest overlap possible, no need for further search
+            #leave immediately because this is the greatest overlap possible, no need for further search
             overlap = thisSize
+            break
+
+    for idx in toRemove: #Delete overlapping ranges - needs to be separate loop to avoid messing with indices during loop
+        del checkRangeList[idx]
 
     checkRangeList.append(thisRange)
     if overlap > thisSize:
@@ -246,11 +252,9 @@ def dayFive():
         thisIntRange = list(map(int, rangeLine.split("-")))
         #need to check for overlap from existing ranges
         newVals = findOverlap(thisIntRange,rangeList)
-        print("Found overlap: "+str(newVals)+" in range "+str(thisIntRange))
+        print("New val count: "+str(newVals)+" in range "+str(thisIntRange))
         totalFreshIDs += newVals
-        print("Vals: "+str(totalFreshIDs))
-        if numLines == 27:
-            exit()
+        print("Curr count: "+str(totalFreshIDs))
         numLines = numLines + 1
 
     #TODO: My problem is that I only take away the max overlap from one comparison range. 

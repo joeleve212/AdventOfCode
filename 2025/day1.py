@@ -197,7 +197,6 @@ def isWithin(val, rangeList):
 
 def rangeSize(lower, upper):
     size = upper - lower + 1
-    print("Found size "+str(size))
     return size
 
 def findOverlap(thisRange, checkRangeList):
@@ -257,9 +256,7 @@ def dayFive():
         thisIntRange = list(map(int, rangeLine.split("-")))
         #need to check for overlap from existing ranges
         newVals = findOverlap(thisIntRange,rangeList)
-        print("New val count: "+str(newVals)+" in range "+str(thisIntRange))
         totalFreshIDs += newVals
-        print("Curr count: "+str(totalFreshIDs))
         numLines = numLines + 1
 
     #TODO: My problem is that I only take away the max overlap from one comparison range. 

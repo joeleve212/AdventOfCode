@@ -1,4 +1,5 @@
 import re
+import numpy
 
 fileName="C:\\Users\\joele\\Documents\\GHrepos\\AdventOfCode\\2025\\inputDay8.txt"
 
@@ -284,17 +285,27 @@ def dayEight():
     inFile = open(fileName)
     lineList = inFile.read().splitlines()
     coordList = []
+    numPairs = 1000
+    pairList = numpy.array([])
+    circuits=[]
     for line in lineList:
         thisCoordStr=line.split(',')
         thisCoord=[int(thisCoordStr[0]),int(thisCoordStr[1]),int(thisCoordStr[2])]
         coordList.append(thisCoord)
         # print("Added coord: " + str(thisCoord))
     for coord1 in coordList:
-        for coord2 in coordList:
-            if coord1 == coord2:
-                continue
+        #compare each coordinate with every coordinate later in the list(previous items have already been compared)
+        for coord2 in coordList[coordList.index(coord1)+1:]:
             dist=dist3D(coord1[0],coord1[1],coord1[2],coord2[0],coord2[1],coord2[2])
-            print("Dist is "+str(dist))
+            print("Max pair dist is "+str(numpy.max(pairList,axis=0)))
+
+            if (len(pairList) < numPairs) or (dist < numpy.max(pairList,axis=0)[0]):
+                pair=[dist,coordList.index(coord1),coordList.index(coord2)]
+                # pairList.remove()
+            #TODO: create list of shortest dists
+    
+    #TODO: connect boxes
+    #TODO: keep track of boxes in each circuit
 
 
 ##Main portion of program

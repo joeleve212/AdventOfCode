@@ -1,6 +1,6 @@
 import re
 
-fileName="C:\\Users\\joele\\Documents\\GHrepos\\AdventOfCode\\2025\\inputDay5.txt"
+fileName="C:\\Users\\joele\\Documents\\GHrepos\\AdventOfCode\\2025\\inputDay8.txt"
 
 global dialNum 
 dialNum = 50
@@ -273,6 +273,30 @@ def dayFive():
     #             break
     print("Total fresh IDs: "+ str(totalFreshIDs))
 
+def dist3D(x1,y1,z1,x2,y2,z2):
+    xDiff=x2-x1
+    yDiff=y2-y1
+    zDiff=z2-z1
+    distance=pow(pow(xDiff,2) + pow(yDiff,2) + pow(zDiff,2),.5)
+    return distance
+
+def dayEight():
+    inFile = open(fileName)
+    lineList = inFile.read().splitlines()
+    coordList = []
+    for line in lineList:
+        thisCoordStr=line.split(',')
+        thisCoord=[int(thisCoordStr[0]),int(thisCoordStr[1]),int(thisCoordStr[2])]
+        coordList.append(thisCoord)
+        # print("Added coord: " + str(thisCoord))
+    for coord1 in coordList:
+        for coord2 in coordList:
+            if coord1 == coord2:
+                continue
+            dist=dist3D(coord1[0],coord1[1],coord1[2],coord2[0],coord2[1],coord2[2])
+            print("Dist is "+str(dist))
+
+
 ##Main portion of program
-dayFive()
+dayEight()
 
